@@ -8,24 +8,21 @@
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<script src="https://unpkg.com/vue@2.6.14"></script>
-	<script src="https://unpkg.com/@zenuml/core@2.0.1/dist/zenuml/core.umd.min.js"></script>
+	<script> window.process = { env: 'production' } </script>
+	<script src="https://unpkg.com/@zenuml/core@latest/dist/zenuml.js"></script>
 	<link rel="stylesheet"
-		href="https://unpkg.com/@zenuml/core@2.0.1/dist/zenuml/core.css">
+		href="https://unpkg.com/@zenuml/core@latest/dist/style.css">
 </head>
 
-
 <body>
-	<div id="app">
-	</div>
+	<div id="app"> </div>
 	<script>
-		const ZenUml = window['zenuml/core'].default;
+		const ZenUml = window['zenuml'].default;
 		const zenuml = new ZenUml(document.getElementById('app'));
 		const code = "{{content}}"
 
-		zenuml.render(code, 'theme-darcula')
+		zenuml.render(code, 'theme-default')
 	</script>
-
 </body>
 
 </html>
