@@ -5,6 +5,13 @@ import rawHtml from './webview.html';
 
 let previewers: Map<string, ZenumlPreviewer> = new Map();
 
+interface PreviewerConfiguration { }
+
+
+function getPreviewConfiguration() {
+	return vscode.workspace.getConfiguration('zenuml').get<PreviewerConfiguration>('preview');
+}
+
 export class ZenumlPreviewer implements vscode.Disposable {
 	private previewUri?: string;
 	private webviewPanel?: vscode.WebviewPanel | null;
@@ -12,14 +19,16 @@ export class ZenumlPreviewer implements vscode.Disposable {
 	public isLocked: boolean = false;
 	public static $context: vscode.ExtensionContext;
 
-
-
 	constructor() {
 		this.disposal = vscode.workspace.onDidChangeTextDocument(e => this.onDidChangeTextDocument(e));
 	}
 
 	public isActive() {
 		return this.webviewPanel && this.webviewPanel.visible;
+	}
+
+	public isActiveBy(doc: vscode.TextDocument) {
+		return this.isActive() && doc.uri.toString() === this.previewUri;
 	}
 
 	public getPerviewUri() {
@@ -30,55 +39,18 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		return document.languageId === 'zenuml' && /^zenuml/.test(document.getText());
 	}
 
-
-	private showUri(uri: vscode.Uri) {
-		vscode.workspace.openTextDocument(uri).then(doc => {
-			this.showDocument(doc);
-		});
-	}
-
-
-	private async showDocument(doc: vscode.TextDocument) {
-		if (!this.webviewPanel) {
-			return;
-		}
-		if (this.previewUri != doc.uri.toString() && this.previewUri != null) {
-			// this.lastDocument = doc;
-			const previewer = previewers.get(this.previewUri);
-			if (previewer === this) {
-				previewers.delete(this.previewUri);
-			}
-			this.previewUri = doc.uri.toString();
-			previewers.set(this.previewUri, this);
-			this.webviewPanel.title = path.basename(doc.uri.fsPath) + '[Preview]';
-		}
-		this.webviewPanel.webview.html = this.createHtml(doc, this.webviewPanel.webview);
-	}
-
-
-	private onDidChangeTextEditorSelection(event: vscode.TextEditorSelectionChangeEvent): any {
-	}
-
-	private onDidChangeTextDocument(event: vscode.TextDocumentChangeEvent): any {
-	}
-
-	private onWebViewPanelDispose() {
-		previewers.delete(this.previewUri!);
-		this.webviewPanel = null;
-	}
-
-	private onDidReceiveMessage(e: any) {
-		// TODO: handle message
-	}
-
 	public show(e?: any) {
 		if (this.webviewPanel == null) {
 			this.webviewPanel = vscode.window.createWebviewPanel(
 				'zenuml-preview',
 				'ZenUML Previewer',
-				vscode.ViewColumn.Three,
+				{
+					viewColumn: vscode.ViewColumn.Three,
+					preserveFocus: true
+				},
 				{
 					enableScripts: true,
+
 					retainContextWhenHidden: true,
 				}
 			);
@@ -103,46 +75,65 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		}
 	}
 
+	private showUri(uri: vscode.Uri) {
+		vscode.workspace.openTextDocument(uri).then(doc => {
+			this.showDocument(doc);
+		});
+	}
+
+	private async showDocument(doc: vscode.TextDocument) {
+		if (!this.webviewPanel) {
+			return;
+		}
+		// eslint-disable-next-line eqeqeq
+		if (this.previewUri !== doc.uri.toString()) {
+			// this.lastDocument = doc;
+			if (this.previewUri) {
+				const previewer = previewers.get(this.previewUri);
+				if (previewer === this) {
+					previewers.delete(this.previewUri);
+				}
+			}
+			this.previewUri = doc.uri.toString();
+			previewers.set(this.previewUri, this);
+			this.webviewPanel.title = path.basename(doc.uri.fsPath) + '[Preview]';
+		}
+		this.webviewPanel.webview.html = this.createHtml(doc, this.webviewPanel.webview);
+	}
+
+
+	private onDidChangeTextEditorSelection(e: vscode.TextEditorSelectionChangeEvent): any {
+		if (this.isActiveBy(e.textEditor.document) && e.selections.length === 1) {
+			let selection = e.selections[0];
+			let offset = e.textEditor.document.offsetAt(selection.active);
+			this.webviewPanel!.webview.postMessage({
+				action: 'selection',
+				offset
+			});
+		}
+	}
+
+	private onDidChangeTextDocument(e: vscode.TextDocumentChangeEvent): any {
+		if (e.document.uri.toString() === this.previewUri) {
+			this.showDocument(e.document);
+		}
+		return;
+	}
+
+	private onWebViewPanelDispose() {
+		previewers.delete(this.previewUri!);
+		this.webviewPanel = null;
+	}
+
+	private onDidReceiveMessage(e: any) {
+		// TODO: handle message
+	}
+
+
 	private createHtml(doc: vscode.TextDocument, webview: vscode.Webview): string {
 		const documentText = doc.getText();
-		// const html = rawHtml.replace(/{{content}}/ig, documentText);
-		// console.log({
-		// 	rawHtml,
-		// 	html,
-		// });
-		const html = `
-		<!DOCTYPE html>
-<html lang="en">
+		const html = rawHtml.replace(/\"{{content}}\"/g, "`" + documentText + "`");
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible"
-		content="IE=edge">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<script src="https://unpkg.com/vue@2.6.14"></script>
-	<script src="https://unpkg.com/@zenuml/core@2.0.1/dist/zenuml/core.umd.min.js"></script>
-	<link rel="stylesheet"
-		href="https://unpkg.com/@zenuml/core@2.0.1/dist/zenuml/core.css">
-</head>
-
-
-<body>
-	<div id="app">
-	</div>
-	<script>
-		const ZenUml = window['zenuml/core'].default;
-		const zenuml = new ZenUml(document.getElementById('app'));
-		const code = \`${documentText}\`;
-		zenuml.render(code, 'theme-blue')
-	</script>
-
-</body>
-
-</html>
-		`;
-		console.log(html);
 		return html;
 	}
 
@@ -151,9 +142,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 	}
 }
 
-
 function onDidChangeActiveTextEditor(e: vscode.TextEditor | undefined, show?: boolean) {
-	console.debug('onDidChangeActiveTextEditor', e, show);
 	if (e && e.document && e.document.languageId === 'zenuml') {
 		let previewer = getPreviewerBy(e.document.uri);
 		if (!previewer) {
@@ -173,10 +162,10 @@ function getPreviewerBy(uri: vscode.Uri) {
 	return previewers.get(uri.toString());
 }
 
-function getUnlockedController() {
-	for (let controller of previewers.values()) {
-		if (!controller.isLocked) {
-			return controller;
+function getUnlockedPreviewer() {
+	for (let previewer of previewers.values()) {
+		if (!previewer.isLocked) {
+			return previewer;
 		}
 	}
 	return null;
@@ -201,6 +190,6 @@ export function registerPreviewers(context: vscode.ExtensionContext) {
 	ZenumlPreviewer.$context = context;
 	ZenumlPreviewer.$context.subscriptions.push(
 		vscode.window.onDidChangeActiveTextEditor(e => onDidChangeActiveTextEditor(e)),
-		vscode.commands.registerCommand('vscode-zenuml.preview', () => preview()),
+		vscode.commands.registerTextEditorCommand('vscode-zenuml.preview', () => preview()),
 	);
 }
