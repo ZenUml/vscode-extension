@@ -3,15 +3,26 @@
   "displayName": "vscode-zenuml",
   "description": "Render ZenUML sequence diagram",
   "version": "0.0.1",
+  "publisher": "zenuml",
+  "keywords": [
+    "zenuml",
+    "sequence diagram",
+    "diagram",
+    "uml"
+  ],
+  "readme": "./README.md",
+  "categories": [
+    "Visualization"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
   "engines": {
     "vscode": "^1.74.0"
   },
-  "categories": [
-    "Other"
-  ],
   "browser": "./dist/extension.js",
   "main": "./dist/extension.js",
-  "activationEvents": [],
   "contributes": {
     "languages": [
       {
@@ -32,11 +43,6 @@
         "command": "vscode-zenuml.preview",
         "category": "ZenUML",
         "title": "Preview ZenUML Diagram"
-      },
-      {
-        "command": "vscode-zenuml.helloWorld",
-        "category": "ZenUML",
-        "title": "ZenUML Helloworld"
       }
     ]
   },
