@@ -60,7 +60,8 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "changelog": "auto-changelog --template keepachangelog --output=CHANGELOG.md"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
