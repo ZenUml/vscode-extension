@@ -65,6 +65,8 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.0",
+    "auto-changelog": "^2.4.0",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "html-loader": "^4.2.0",
@@ -77,5 +79,10 @@
   },
   "dependencies": {
     "@zenuml/core": "^2.0.30"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
