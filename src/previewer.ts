@@ -40,6 +40,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 	}
 
 	public show(e?: any) {
+		// eslint-disable-next-line eqeqeq
 		if (this.webviewPanel == null) {
 			this.webviewPanel = vscode.window.createWebviewPanel(
 				'zenuml-preview',

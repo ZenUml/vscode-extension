@@ -7,7 +7,7 @@
 		content="IE=edge">
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>ZenUML Diagram</title>
 	<script> window.process = { env: 'production' } </script>
 	<script src="https://unpkg.com/@zenuml/core@latest/dist/zenuml.js"></script>
 	<link rel="stylesheet"
@@ -21,7 +21,7 @@
 		const zenuml = new ZenUml(document.getElementById('app'));
 		const code = "{{content}}"
 
-		zenuml.render(code, 'theme-default')
+		zenuml.render(code, 'theme-darcula')
 	</script>
 </body>
 
