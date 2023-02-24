@@ -14,6 +14,7 @@
     "diagram",
     "uml"
   ],
+  "icon": "assets/zenuml-icon.png",
   "readme": "./README.md",
   "categories": [
     "Visualization"
