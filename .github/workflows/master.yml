@@ -1,4 +1,4 @@
-name: Trigger Prerelease
+name: Push to Master 
 on:
   push:
     branches:
