@@ -1,8 +1,8 @@
-name: Push to Master 
+name: Push to Main 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
