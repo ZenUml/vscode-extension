@@ -3,7 +3,7 @@
   "displayName": "vscode-zenuml",
   "description": "Render ZenUML sequence diagram",
   "version": "1.0.1",
-  "publisher": "zenuml",
+  "publisher": "mrcoder",
   "repository": {
     "type": "git",
     "url": "https://github.com/ZenUml/vscode-extension"

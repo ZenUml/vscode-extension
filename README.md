@@ -1,4 +1,4 @@
-# ZenUML VSCode Extension
+#  ![img](assets/zenuml-icon.png) ZenUML VSCode Extension
 The ZenUML VSCode Extension is a powerful tool that allows you to create sequence diagrams in your VSCode editor. With this extension, you can write ZenUML code and instantly see a rendered sequence diagram that visualizes your code.
 
 ## Features
