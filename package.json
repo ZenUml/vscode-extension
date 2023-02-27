@@ -1,6 +1,6 @@
 {
-  "name": "vscode-zenuml",
-  "displayName": "vscode-zenuml",
+  "name": "zenuml",
+  "displayName": "zenuml support",
   "description": "Render ZenUML sequence diagram",
   "version": "1.0.1",
   "publisher": "mrcoder",
@@ -84,7 +84,7 @@
     "webpack-cli": "^5.0.0"
   },
   "dependencies": {
-    "@zenuml/core": "^2.0.30"
+    "@zenuml/core": "^2.0.34"
   },
   "config": {
     "commitizen": {
