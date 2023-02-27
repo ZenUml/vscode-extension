@@ -84,7 +84,7 @@
     "webpack-cli": "^5.0.0"
   },
   "dependencies": {
-    "@zenuml/core": "^2.0.30"
+    "@zenuml/core": "^2.0.34"
   },
   "config": {
     "commitizen": {
