@@ -1,5 +1,5 @@
 {
-  "name": "vscode-zenuml",
+  "name": "zenuml",
   "displayName": "vscode-zenuml",
   "description": "Render ZenUML sequence diagram",
   "version": "1.0.1",
