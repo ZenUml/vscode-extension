@@ -10,13 +10,13 @@
 	<meta http-equiv="Content-Security-Policy"
 		content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-{{nonce}}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
 	<title>ZenUML Diagram</title>
-	<script> window.process = { env: 'production' } </script>
+	<script nonce="{{nonce}}"> window.process = { env: 'production' } </script>
 	<script src="{{scriptSrc}}"></script>	
 </head>
 <body>
 	<noscript>You need to enable Javascript to run this app.</noscript>
 	<div id="app"></div>
-	<script>
+	<script nonce="{{nonce}}">
 		const ZenUml = window['zenuml'].default;
 		const zenuml = new ZenUml(document.getElementById('app'));
 		const code = "{{content}}"

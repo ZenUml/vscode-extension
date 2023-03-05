@@ -3,6 +3,7 @@
 'use strict';
 
 const path = require('path');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -51,6 +52,13 @@ const extensionConfig = {
       }
     ]
   },
+  plugins: [
+    new copyWebpackPlugin({
+      patterns: [
+        { from: "node_modules/@zenuml/core/dist/zenuml.js", to: "zenuml.js" },
+      ],
+    }),
+  ],
   devtool: 'nosources-source-map',
   infrastructureLogging: {
     level: "log", // enables logging required for problem matchers

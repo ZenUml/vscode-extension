@@ -130,10 +130,54 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		// TODO: handle message
 	}
 
+	private getNonce() {
+		let text = '';
+		const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		for (let i = 0; i < 32; i++) {
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+		return text;
+	}
+
 
 	private createHtml(doc: vscode.TextDocument, webview: vscode.Webview): string {
-		const documentText = doc.getText();
-		const html = rawHtml.replace(/\"{{content}}\"/g, "`" + documentText + "`");
+		const extensionUri = ZenumlPreviewer.$context.extensionUri;
+		const scriptPathOnDisk = vscode.Uri.joinPath(extensionUri, "dist", "zenuml.js");
+		const scriptSrc = webview.asWebviewUri(scriptPathOnDisk);
+		const content = doc.getText();
+
+		const nonce = this.getNonce();
+
+		const html = `
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${nonce}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+	<title>ZenUML Diagram</title>
+	<script nonce="${nonce}"> window.process = { env: 'production' } </script>
+	<script nonce="${nonce}" src="${scriptSrc}"></script>	
+</head>
+<body>
+	<noscript>You need to enable Javascript to run this app.</noscript>
+	<div id="app"></div>
+	<script nonce="${nonce}">
+		const ZenUml = window['zenuml'].default;
+		const zenuml = new ZenUml(document.getElementById('app'));
+		const code = \`${content}\`;
+
+		zenuml.render(code, 'theme-darcula')
+	</script>
+</body>
+
+</html>
+		`;
 
 		return html;
 	}
