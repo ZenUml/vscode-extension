@@ -1,15 +1,23 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import rawHtml from './webview.html';
+import {themes} from './themes';
 
 
 let previewers: Map<string, ZenumlPreviewer> = new Map();
 
-interface PreviewerConfiguration { }
+interface PreviewConfig {
+	autoRefresh: boolean;
+	theme: keyof typeof themes;
+}
+
+const defaultConfig: PreviewConfig = {
+	autoRefresh: true,
+	theme: 'default'
+};
 
 
 function getPreviewConfiguration() {
-	return vscode.workspace.getConfiguration('zenuml').get<PreviewerConfiguration>('preview');
+	return vscode.workspace.getConfiguration('zenuml').get<PreviewConfig>('preview', defaultConfig);
 }
 
 export class ZenumlPreviewer implements vscode.Disposable {
@@ -139,14 +147,15 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		return text;
 	}
 
-
 	private createHtml(doc: vscode.TextDocument, webview: vscode.Webview): string {
 		const extensionUri = ZenumlPreviewer.$context.extensionUri;
 		const scriptPathOnDisk = vscode.Uri.joinPath(extensionUri, "dist", "zenuml.js");
 		const scriptSrc = webview.asWebviewUri(scriptPathOnDisk);
 		const content = doc.getText();
-
 		const nonce = this.getNonce();
+		const previewConfig  = getPreviewConfiguration();
+		const theme = themes[previewConfig.theme];
+
 
 		const html = `
 <!DOCTYPE html>
@@ -172,7 +181,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		const zenuml = new ZenUml(document.getElementById('app'));
 		const code = \`${content}\`;
 
-		zenuml.render(code, 'theme-darcula')
+		zenuml.render(code, '${theme}')
 	</script>
 </body>
 
