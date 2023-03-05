@@ -7,11 +7,15 @@
 		content="IE=edge">
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-{{nonce}}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
 	<title>ZenUML Diagram</title>
 	<script> window.process = { env: 'production' } </script>
-	<script src="https://unpkg.com/@zenuml/core@latest/dist/zenuml.js"></script>
+	<script src="{{scriptSrc}}"></script>	
+</head>
 <body>
-	<div id="app"> </div>
+	<noscript>You need to enable Javascript to run this app.</noscript>
+	<div id="app"></div>
 	<script>
 		const ZenUml = window['zenuml'].default;
 		const zenuml = new ZenUml(document.getElementById('app'));
