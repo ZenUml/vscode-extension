@@ -19,6 +19,10 @@
   "categories": [
     "Visualization"
   ],
+  "activationEvents": [
+    "onLanguage:zenuml",
+    "onCommand:vscode-zenuml.preview"
+  ],
   "extensionKind": [
     "ui",
     "workspace"
