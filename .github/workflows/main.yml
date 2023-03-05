@@ -15,6 +15,6 @@ jobs:
         with:
           node-version: 16
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install --save-exact
       - name: Linting
-        run: yarn lint
+        run: npm lint
