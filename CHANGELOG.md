@@ -1,5 +1,16 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.1.0](https://github.com/ZenUml/vscode-extension/compare/v1.0.1...v1.1.0) (2023-03-05)
+
+
+### Features
+
+* **package.json:** allow users to select different theme ([2262fd0](https://github.com/ZenUml/vscode-extension/commit/2262fd0d5595eeb3128c29a5d3111838e0a40b45))
+
+# Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
