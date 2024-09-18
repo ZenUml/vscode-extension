@@ -94,7 +94,7 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.0",
-    "@zenuml/core": "^2.0.34",
+    "@zenuml/core": "^3.24.5",
     "auto-changelog": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "cz-conventional-changelog": "3.3.0",

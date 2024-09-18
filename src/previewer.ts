@@ -50,16 +50,16 @@ export class ZenumlPreviewer implements vscode.Disposable {
 	public show(e?: any) {
 		// eslint-disable-next-line eqeqeq
 		if (this.webviewPanel == null) {
+			const column = vscode.window.visibleTextEditors.length ? vscode.ViewColumn.Beside : vscode.ViewColumn.Two;
 			this.webviewPanel = vscode.window.createWebviewPanel(
 				'zenuml-preview',
 				'ZenUML Previewer',
 				{
-					viewColumn: vscode.ViewColumn.Three,
+					viewColumn: column,
 					preserveFocus: true
 				},
 				{
 					enableScripts: true,
-
 					retainContextWhenHidden: true,
 				}
 			);
@@ -94,7 +94,6 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		if (!this.webviewPanel) {
 			return;
 		}
-		// eslint-disable-next-line eqeqeq
 		if (this.previewUri !== doc.uri.toString()) {
 			// this.lastDocument = doc;
 			if (this.previewUri) {
@@ -181,7 +180,10 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		const zenuml = new ZenUml(document.getElementById('app'));
 		const code = \`${content}\`;
 
-		zenuml.render(code, '${theme}')
+		zenuml.render(code, {
+			theme: \`${theme}\`,
+			mode: 'static',
+		})
 	</script>
 </body>
 
@@ -207,6 +209,8 @@ function onDidChangeActiveTextEditor(e: vscode.TextEditor | undefined, show?: bo
 		if (previewer) {
 			if (e.document.uri.toString() !== previewer.getPerviewUri()) {
 				previewer.show(e.document.uri);
+			} else if (!previewer.isActive()) {
+				previewer.show();
 			}
 		}
 	}
