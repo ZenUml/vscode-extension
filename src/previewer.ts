@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import {themes} from './themes';
+import {renderMode, themes} from './configuration';
 
 
 let previewers: Map<string, ZenumlPreviewer> = new Map();
@@ -8,11 +8,13 @@ let previewers: Map<string, ZenumlPreviewer> = new Map();
 interface PreviewConfig {
 	autoRefresh: boolean;
 	theme: keyof typeof themes;
+	renderMode: keyof typeof renderMode;
 }
 
 const defaultConfig: PreviewConfig = {
 	autoRefresh: true,
-	theme: 'default'
+	theme: 'default',
+	renderMode: 'dynamic'
 };
 
 
@@ -154,6 +156,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		const nonce = this.getNonce();
 		const previewConfig  = getPreviewConfiguration();
 		const theme = themes[previewConfig.theme];
+		const mode = renderMode[previewConfig.renderMode];
 
 
 		const html = `
@@ -182,7 +185,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 
 		zenuml.render(code, {
 			theme: \`${theme}\`,
-			mode: 'static',
+			mode: \'${mode}\',
 		})
 	</script>
 </body>

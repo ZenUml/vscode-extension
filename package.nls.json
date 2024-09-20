@@ -2,5 +2,11 @@
 	"configuration.title": "ZenUML",
 	"configuration.theme": "Theme",
 	"configuration.theme.default": "Default",
-	"configuration.theme.dark": "Dark"
+	"configuration.theme.neon": "Neon",
+	"configuration.theme.neon-light": "Neon Light",
+	"configuration.theme.clean-light": "Clear Light",
+	"configuration.theme.clean-dark": "Clear Dark",
+	"configuration.renderMode": "Render Mode",
+	"configuration.renderMode.dynamic": "Dynamic",
+	"configuration.renderMode.static": "Static"
 }
