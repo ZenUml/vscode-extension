@@ -28,7 +28,7 @@
     "workspace"
   ],
   "engines": {
-    "vscode": "^1.74.0",
+    "vscode": "^1.93.0",
     "node": ">=18.x"
   },
   "browser": "./dist/extension.js",
@@ -71,7 +71,7 @@
           "enumDescriptions": [
             "%configuration.theme.default%",
             "%configuration.theme.dark%",
-            "%configuration.theme.neon%",	
+            "%configuration.theme.neon%",
             "%configuration.theme.neon-light%",
             "%configuration.theme.clean-light%",
             "%configuration.theme.clean-dark%"
