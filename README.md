@@ -22,7 +22,7 @@ To install the ZenUML VSCode Extension, follow these steps:
 
 To use the ZenUML VSCode Extension, follow these steps:
 
-1. Open a new or existing file with a `.zenuml` extension. Write ZenUML code in the file.
+1. Open a new or existing file with a `.zen` or `.zenuml` file extension. Write ZenUML code in the file.
 2. Press <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> or <kbd>CMD</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> to open the command palette.3. Search for `ZenUML: Preview` and select it.
 4. A preview window will open, displaying the rendered sequence diagram based on your ZenUML code.
 
