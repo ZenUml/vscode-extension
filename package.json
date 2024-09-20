@@ -62,13 +62,33 @@
           "default": "default",
           "enum": [
             "default",
-            "dark"
+            "neon",
+            "neon-light",
+            "clean-light",
+            "clean-dark"
           ],
           "enumDescriptions": [
             "%configuration.theme.default%",
-            "%configuration.theme.dark%"
+            "%configuration.theme.dark%",
+            "%configuration.theme.neon%",	
+            "%configuration.theme.neon-light%",
+            "%configuration.theme.clean-light%",
+            "%configuration.theme.clean-dark%"
           ],
           "description": "%configuration.theme%"
+        },
+        "zenuml.preview.renderMode": {
+          "type": "string",
+          "default": "dynamic",
+          "enum": [
+            "dynamic",
+            "static"
+          ],
+          "enumDescriptions": [
+            "%configuration.renderMode.dynamic%",
+            "%configuration.renderMode.static%"
+          ],
+          "description": "%configuration.renderMode%"
         }
       }
     }
