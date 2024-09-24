@@ -2,7 +2,7 @@
   "name": "zenuml",
   "displayName": "zenuml support",
   "description": "Render ZenUML sequence diagram",
-  "version": "2024.09.01",
+  "version": "2024.9.1",
   "publisher": "mrcoder",
   "repository": {
     "type": "git",
