@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import {themes} from './themes';
+import {renderMode, themes} from './configuration';
 
 
 let previewers: Map<string, ZenumlPreviewer> = new Map();
@@ -8,11 +8,13 @@ let previewers: Map<string, ZenumlPreviewer> = new Map();
 interface PreviewConfig {
 	autoRefresh: boolean;
 	theme: keyof typeof themes;
+	renderMode: keyof typeof renderMode;
 }
 
 const defaultConfig: PreviewConfig = {
 	autoRefresh: true,
-	theme: 'default'
+	theme: 'default',
+	renderMode: 'dynamic'
 };
 
 
@@ -50,16 +52,16 @@ export class ZenumlPreviewer implements vscode.Disposable {
 	public show(e?: any) {
 		// eslint-disable-next-line eqeqeq
 		if (this.webviewPanel == null) {
+			const column = vscode.window.visibleTextEditors.length ? vscode.ViewColumn.Beside : vscode.ViewColumn.Two;
 			this.webviewPanel = vscode.window.createWebviewPanel(
 				'zenuml-preview',
 				'ZenUML Previewer',
 				{
-					viewColumn: vscode.ViewColumn.Three,
+					viewColumn: column,
 					preserveFocus: true
 				},
 				{
 					enableScripts: true,
-
 					retainContextWhenHidden: true,
 				}
 			);
@@ -94,7 +96,6 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		if (!this.webviewPanel) {
 			return;
 		}
-		// eslint-disable-next-line eqeqeq
 		if (this.previewUri !== doc.uri.toString()) {
 			// this.lastDocument = doc;
 			if (this.previewUri) {
@@ -155,6 +156,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		const nonce = this.getNonce();
 		const previewConfig  = getPreviewConfiguration();
 		const theme = themes[previewConfig.theme];
+		const mode = renderMode[previewConfig.renderMode];
 
 
 		const html = `
@@ -181,7 +183,10 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		const zenuml = new ZenUml(document.getElementById('app'));
 		const code = \`${content}\`;
 
-		zenuml.render(code, '${theme}')
+		zenuml.render(code, {
+			theme: \`${theme}\`,
+			mode: \'${mode}\',
+		})
 	</script>
 </body>
 
@@ -207,6 +212,8 @@ function onDidChangeActiveTextEditor(e: vscode.TextEditor | undefined, show?: bo
 		if (previewer) {
 			if (e.document.uri.toString() !== previewer.getPerviewUri()) {
 				previewer.show(e.document.uri);
+			} else if (!previewer.isActive()) {
+				previewer.show();
 			}
 		}
 	}

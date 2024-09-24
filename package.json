@@ -28,7 +28,8 @@
     "workspace"
   ],
   "engines": {
-    "vscode": "^1.74.0"
+    "vscode": "^1.93.0",
+    "node": ">=18.x"
   },
   "browser": "./dist/extension.js",
   "main": "./dist/extension.js",
@@ -62,13 +63,33 @@
           "default": "default",
           "enum": [
             "default",
-            "dark"
+            "neon",
+            "neon-light",
+            "clean-light",
+            "clean-dark"
           ],
           "enumDescriptions": [
             "%configuration.theme.default%",
-            "%configuration.theme.dark%"
+            "%configuration.theme.dark%",
+            "%configuration.theme.neon%",
+            "%configuration.theme.neon-light%",
+            "%configuration.theme.clean-light%",
+            "%configuration.theme.clean-dark%"
           ],
           "description": "%configuration.theme%"
+        },
+        "zenuml.preview.renderMode": {
+          "type": "string",
+          "default": "dynamic",
+          "enum": [
+            "dynamic",
+            "static"
+          ],
+          "enumDescriptions": [
+            "%configuration.renderMode.dynamic%",
+            "%configuration.renderMode.static%"
+          ],
+          "description": "%configuration.renderMode%"
         }
       }
     }
@@ -89,12 +110,12 @@
   "devDependencies": {
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
-    "@types/vscode": "^1.74.0",
+    "@types/node": "^18.19.50",
+    "@types/vscode": "^1.93.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.0",
-    "@zenuml/core": "^2.0.34",
+    "@zenuml/core": "^3.24.5",
     "auto-changelog": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "cz-conventional-changelog": "3.3.0",
