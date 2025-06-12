@@ -14,6 +14,7 @@
     "diagram",
     "uml"
   ],
+  "packageManager": "pnpm",
   "icon": "assets/zenuml-icon.png",
   "readme": "./README.md",
   "categories": [
@@ -95,13 +96,13 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run package",
+    "vscode:prepublish": "pnpm run package",
     "compile": "webpack",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "changelog": "auto-changelog --template keepachangelog --output=CHANGELOG.md",
@@ -115,7 +116,7 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.0",
-    "@zenuml/core": "^3.24.5",
+    "@zenuml/core-react": "^3.0.2",
     "auto-changelog": "^2.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "cz-conventional-changelog": "3.3.0",

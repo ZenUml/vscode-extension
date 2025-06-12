@@ -55,7 +55,7 @@ const extensionConfig = {
   plugins: [
     new copyWebpackPlugin({
       patterns: [
-        { from: "node_modules/@zenuml/core/dist/zenuml.js", to: "zenuml.js" },
+        { from: "node_modules/@zenuml/core-react/dist/zenuml.js", to: "zenuml.js" },
       ],
     }),
   ],
