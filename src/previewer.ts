@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import {renderMode, themes} from './configuration';
+import { renderMode, themes } from './configuration';
 
 
 let previewers: Map<string, ZenumlPreviewer> = new Map();
@@ -136,7 +136,20 @@ export class ZenumlPreviewer implements vscode.Disposable {
 	}
 
 	private onDidReceiveMessage(e: any) {
-		// TODO: handle message
+		if (e.type === 'contentChange' && typeof e.content === 'string') {
+			if (this.previewUri) {
+				const uri = vscode.Uri.parse(this.previewUri);
+				vscode.workspace.openTextDocument(uri).then(doc => {
+					const edit = new vscode.WorkspaceEdit();
+					const fullRange = new vscode.Range(
+						doc.positionAt(0),
+						doc.positionAt(doc.getText().length)
+					);
+					edit.replace(uri, fullRange, e.content);
+					vscode.workspace.applyEdit(edit);
+				});
+			}
+		}
 	}
 
 	private getNonce() {
@@ -154,7 +167,7 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		const scriptSrc = webview.asWebviewUri(scriptPathOnDisk);
 		const content = doc.getText();
 		const nonce = this.getNonce();
-		const previewConfig  = getPreviewConfiguration();
+		const previewConfig = getPreviewConfiguration();
 		const theme = themes[previewConfig.theme];
 		const mode = renderMode[previewConfig.renderMode];
 
@@ -186,6 +199,13 @@ export class ZenumlPreviewer implements vscode.Disposable {
 		zenuml.render(code, {
 			theme: \`${theme}\`,
 			mode: \'${mode}\',
+			onContentChange: (content) => {
+				const vscode = acquireVsCodeApi();
+        vscode.postMessage({
+            type: 'contentChange',
+            content: content
+        });
+			},
 		})
 	</script>
 </body>
