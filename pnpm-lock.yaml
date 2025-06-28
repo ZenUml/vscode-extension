@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@zenuml/core':
+        specifier: ^3.32.3
+        version: 3.32.3(ts-node@10.9.1(@types/node@18.19.50)(typescript@4.9.5))
     devDependencies:
       '@types/glob':
         specifier: ^8.0.0
@@ -29,9 +33,6 @@ importers:
       '@vscode/test-electron':
         specifier: ^2.2.0
         version: 2.2.3
-      '@zenuml/core-react':
-        specifier: ^3.0.2
-        version: 3.0.2(ts-node@10.9.1(@types/node@18.19.50)(typescript@4.9.5))
       auto-changelog:
         specifier: ^2.4.0
         version: 2.4.0
@@ -459,8 +460,8 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zenuml/core-react@3.0.2':
-    resolution: {integrity: sha512-unZUVY/OiGxe5MrnFITylzTKvexCFTLb6lffdhDNOFROs5twaVvXB2QAu/L4fGAPeJvUlkfXS6mFWRctgfiA/Q==}
+  '@zenuml/core@3.32.3':
+    resolution: {integrity: sha512-Mja96LOR4ltww0V0eysSMZ0ihJSBqDraTPaWSgLDEOvRg+R+eCNs3h579Bo3kVl7Ic7xNyoVfku4qiT99Sv8OA==}
     engines: {node: '>=20'}
 
   JSONStream@1.3.5:
@@ -3127,7 +3128,7 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zenuml/core-react@3.0.2(ts-node@10.9.1(@types/node@18.19.50)(typescript@4.9.5))':
+  '@zenuml/core@3.32.3(ts-node@10.9.1(@types/node@18.19.50)(typescript@4.9.5))':
     dependencies:
       '@floating-ui/react': 0.27.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@headlessui/react': 2.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
